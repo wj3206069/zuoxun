@@ -1,0 +1,189 @@
+<template>
+    <el-main class="app-ruanshili">
+        <el-container>
+            <el-aside v-if="treeExpand" :class="['cus-ruanshili-aside', {'expanded': !treeExpand}]" width="180px" class="aside_tree_css1">
+                <h3 class="tree-title">项目系统管理</h3>
+                <el-tree class="cus-ruanshili-tree" :data="treeData" @node-click="handleNodeClick" highlight-current></el-tree>
+            </el-aside>
+            <el-main class="cus-ruanshili-main">
+                <button @click="treeTrigger" :class="['btn-trigger', {'expanded': !treeExpand}]">
+                    <span :class="['zxicon', 'zx-xiala', {'zxicon-rotate': !treeExpand}]"></span>
+                </button>
+                <router-view></router-view>
+            </el-main>
+        </el-container>
+    </el-main>
+</template>
+<script>
+    export default {
+        name: "projectManagerIndex",
+        data() {
+            return {
+                treeExpand: true,
+                treeData: [
+                    {
+                        id: "1",
+                        label: "基本情况",
+                        path: {
+                            name: "NoProject"
+                        }
+                    },
+                    {
+                        id: "2",
+                        label: "系统管理",
+                        path:{
+                            name:"NoSysManager"
+                        }
+                        // children: [
+                        //     {
+                        //         id: "2-1",
+                        //         label: "著作权"
+                        //     },
+                        //     {
+                        //         id: "2-2",
+                        //         label: "商标"
+                        //     },
+                        //     {
+                        //         id: "2-3",
+                        //         label: "专利"
+                        //     },
+                        //     {
+                        //         id: "2-4",
+                        //         label: "产品证书"
+                        //     }
+                        // ]
+                    },
+                    {
+                        id: "3",
+                        label: "部署环境",
+                        path:{
+                            name:"DENoData"
+                        }
+                    },
+                    {
+                        id: "4",
+                        label: "代码工程",
+                        path:{
+                            name:"CPNoData"
+                        }
+                    },
+                    {
+                        id: "5",
+                        label: "应用产品",
+                        path:{
+                            name:"APNoData"
+                        }
+                    },
+                    {
+                        id: "6",
+                        label: "项目任务",
+                        path:{
+                            name:"PTNoData"
+                        }
+                    },
+                ]
+            }
+        },
+        methods: {
+            treeTrigger() {
+                this.treeExpand = !this.treeExpand;
+            },
+            handleNodeClick(data) {
+
+                if (!!data.path && !!data.path.name) {
+                    console.log(data.label)
+                    this.$router.push({name: data.path.name,params:data.label});
+                }
+                // this.$router.push({name: 'ProjectList'});
+            }
+        },
+        mounted(){
+            setTimeout(function(){
+                $('.el-tree-node').first().addClass('is-current')
+            },100)        
+        }
+    }
+</script>
+<style lang="less">
+    .app-ruanshili {
+        position: relative;
+        padding: 0 !important;
+        overflow-x: hidden;
+    }
+    .cus-ruanshili-aside.expanded {
+        width: 0 !important;
+    }
+    .cus-ruanshili-main {
+        padding-top: 15px;
+        background: #fff;
+    }
+    .cus-ruanshili-tree {
+        margin-right: -20px;
+        height: 100%;
+        overflow-y: scroll;
+        background: transparent;
+    }
+    .btn-trigger {
+    	cursor: pointer;
+        position: absolute;
+        top: 50%;
+        left: calc(200px - 16px);
+        transform: translateY(-50%);
+        border: none;
+        background: #fff;
+        outline: none;
+        z-index: 1;
+    }
+    .btn-trigger:hover .zxicon{
+    	color:#0f619f;
+    }
+    .btn-trigger.expanded {
+        left: 0;
+        background: #d9dee4;
+    }
+    .btn-trigger:before {
+        position: absolute;
+        left: 0;
+        top: -10px;
+        display: block;
+        content: " ";
+        border: solid transparent;
+        border-width: 5px 8px;
+        border-right-color: #fff;
+        border-bottom-color: #fff;
+    }
+    .btn-trigger:after {
+        position: absolute;
+        left: 0;
+        display: block;
+        content: " ";
+        border: solid transparent;
+        border-width: 5px 8px;
+        border-right-color: #fff;
+        border-top-color: #fff;
+    }
+    .btn-trigger.expanded:before {
+        position: absolute;
+        left: 0;
+        top: -10px;
+        display: block;
+        content: " ";
+        border: solid transparent;
+        border-width: 5px 8px;
+        border-left-color: #d9dee4;
+        border-bottom-color: #d9dee4;
+    }
+    .btn-trigger.expanded:after {
+        border-left-color: #d9dee4;
+        border-top-color: #d9dee4;
+    }
+    .btn-trigger span {
+        display: inline-block;
+        transform: rotateZ(0);
+        transition: transform .3s;
+    }
+    .btn-trigger span.zxicon-rotate {
+        transform: rotateZ(180deg);
+    }
+</style>
+

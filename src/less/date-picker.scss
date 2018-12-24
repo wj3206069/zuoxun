@@ -1,0 +1,77 @@
+$clor-danger: #C51316;
+$color-primary: #0D72DA;
+$default-size: 3px;
+$lg-size: 5px;
+@mixin bottom {
+  content: '';
+  border-radius: 50%;
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+@mixin point($size: $default-size) {
+  @each $name,
+  $color in (is-danger, $clor-danger),
+  (is-success, $color-primary) {
+    &.#{$name} {
+      &::before {
+        width: $size;
+        height: $size;
+        background-color:$color;
+        @content;
+      }
+    }
+  }
+}
+
+
+.date-picker {
+  min-width: 320px;
+  width: 100%;
+  &.lg{
+    .el-date-table{
+      th{
+        padding: 8px;
+      }
+      td{
+        height: 38px;
+        padding: 8px 0;
+        div{
+          padding: 5px 0;
+          height: 40px;
+        }
+        span{
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+        }
+        @include point($lg-size);
+      }
+    }
+  }
+  .el-picker-panel {
+    margin: 0 0 5px 0;
+  }
+  .el-date-picker {
+    width: 100%;
+    .el-picker-panel__content {
+      width: 100%;
+      margin: 15px 0;
+    }
+  }
+  .el-date-table {
+    td {
+      &.today:not(.current){
+        span{
+          background-color: #c0c4cc;
+          color: #fff;
+        }
+      }
+      @include point(){
+        @include bottom
+      }
+    }
+  }
+}
+
